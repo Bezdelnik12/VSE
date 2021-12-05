@@ -77,6 +77,8 @@ class CommentsController extends Controller
     public function actionCreate()
     {
         $model = new Comments();
+        $model->create_date = time();
+        $model->parents_id = 0;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

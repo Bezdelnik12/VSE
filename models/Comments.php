@@ -48,11 +48,11 @@ class Comments extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
-            'create_date' => 'Create Date',
-            'body' => 'Body',
-            'post_id' => 'Post ID',
-            'parents_id' => 'Parents ID',
+            'user_id' => 'Автор',
+            'create_date' => 'Дата создания',
+            'body' => 'Содержание',
+            'post_id' => 'Пост',
+            'parents_id' => 'Родитель',
         ];
     }
 

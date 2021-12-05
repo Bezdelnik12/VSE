@@ -5,10 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Posts */
 
-$this->title = 'Update Posts: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
+$this->title = 'Изменить запись: ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Панель администратора', 'url' => ['/admin/']];
+$this->params['breadcrumbs'][] = ['label' => 'Записи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Обновить';
 ?>
 <div class="posts-update">
 

@@ -5,8 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Posts */
 
-$this->title = 'Create Posts';
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
+$this->title = 'Создать запись';
+$this->params['breadcrumbs'][] = ['label' => 'Панель администратора', 'url' => ['/admin/']];
+$this->params['breadcrumbs'][] = ['label' => 'Записи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="posts-create">

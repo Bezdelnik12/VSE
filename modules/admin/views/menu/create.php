@@ -6,8 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\Menu */
 /* @var $menu array */
 
-$this->title = 'Create Menu';
-$this->params['breadcrumbs'][] = ['label' => 'Menus', 'url' => ['index']];
+$this->title = 'Создать пункт меню';
+$this->params['breadcrumbs'][] = ['label' => 'Панель администратора', 'url' => ['/admin/']];
+$this->params['breadcrumbs'][] = ['label' => 'Меню', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-create">

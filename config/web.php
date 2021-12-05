@@ -3,7 +3,7 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
-define('NO_REG', true);
+define('NO_REG', false);
 
 //Функция построения дерева из массива от Tommy Lacroix
 function getTree($dataset) {
@@ -56,7 +56,7 @@ function showCat($data, $admin = false, $no_tpl = ''){
     $string = '';
     foreach($data as $item){
         if ($no_tpl) $string .= tplMenu2($item, $admin);
-        else $string .= tplMenu($item, $no_tpl);
+        else $string .= tplMenu($item, $admin);
     }
     if ($no_tpl)  {
         $string = mb_substr($string, 0, -1);
@@ -64,7 +64,7 @@ function showCat($data, $admin = false, $no_tpl = ''){
         $_d = [];
         foreach ($string as $item) {
             $_c = explode(':', $item);
-            $_d[$_c[0]] = $_c[1];
+            if (isset($_c[1])) $_d[$_c[0]] = $_c[1];
         }
         return $_d;
     }
@@ -73,6 +73,7 @@ function showCat($data, $admin = false, $no_tpl = ''){
 
 $config = [
     'id' => 'basic',
+    'name' => 'VSE',
     'basePath' => dirname(__DIR__),
     'language' => 'ru',
     'bootstrap' => ['log'],
@@ -118,7 +119,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'pages/<p:\d+>' => 'site/page'
+                'login' => 'site/login',
+                'reg' => 'site/reg',
+                'page<p:\d+>' => 'site/page',
+                'post<author_id:\d>_<id:\d+>' => 'site/post',
+                'category<id:\d+>' => 'site/category',
             ],
         ],
     ],

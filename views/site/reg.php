@@ -12,13 +12,13 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
         <?= $form->field($model, 'login') ?>
-        <?= $form->field($model, 'password') ?>
-        <?= $form->field($model, 'password2') ?>
+        <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($model, 'password2')->passwordInput() ?>
         <?= $form->field($model, 'email') ?>
         <?= $form->field($model, 'nickname') ?>
     
         <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
         </div>
     <?php ActiveForm::end(); ?>
 

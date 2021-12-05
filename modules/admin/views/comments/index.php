@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Comments';
+$this->title = 'Коментарии';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comments-index">
@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Comments', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -24,10 +24,28 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
-            'create_date',
+            [
+                'attribute' => 'user_id',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return \app\models\Users::findOne($data->user_id)->nickname;
+                }
+            ],
+            [
+                'attribute' => 'create_date',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return date('d.m.Y H:i:s', $data->create_date);
+                }
+            ],
             'body:ntext',
-            'post_id',
+            [
+                'attribute' => 'post_id',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return \app\models\Posts::findOne($data->post_id)->title;
+                }
+            ],
             //'parents_id',
 
             ['class' => 'yii\grid\ActionColumn'],

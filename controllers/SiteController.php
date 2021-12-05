@@ -2,16 +2,19 @@
 
 namespace app\controllers;
 
+use app\models\Categories;
+use app\models\CommentForm;
+use app\models\Comments;
 use app\models\Pages;
 use app\models\Posts;
-use Codeception\PHPUnit\Constraint\Page;
 use Yii;
+use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -63,7 +66,53 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $query = Posts::find();
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 4]);
+        $posts = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->orderBy([
+                'create_date' => SORT_DESC
+            ])
+            ->all();
+        $category = false;
+        return $this->render('index', compact('posts', 'pages', 'category'));
+    }
+
+    public function actionCategory($id)
+    {
+        $category = Categories::findOne($id);
+        if (!$category) throw new NotFoundHttpException('Страница не найдена.');
+
+        $query = Posts::find()->where(['categories_id' => $id]);
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 4]);
+        $posts = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->orderBy([
+                'create_date' => SORT_DESC
+            ])
+            ->all();
+        return $this->render('index', compact('posts', 'pages', 'category'));
+    }
+
+    public function actionPost($id, $author_id)
+    {
+        $post = Posts::findOne(['id' => $id, 'autor_id' => $author_id]);
+        if (!$post) throw new NotFoundHttpException('Страница не найдена.');
+
+        $query = Comments::find()->where(['post_id' => $post->id]);
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 10]);
+        $comments = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        $form_comment = new CommentForm();
+        $form_comment->parents_id = 0;
+        if ($form_comment->load(Yii::$app->request->post()) && $form_comment->validate() && $form_comment->com($post->id, Yii::$app->user->identity->id)) {
+            Yii::$app->session->setFlash('success', 'Коментарий сохранен');
+            return $this->redirect('/post' . $post->autor_id . '_' . $post->id);
+        }
+
+        return $this->render('post', compact('post', 'comments', 'form_comment', 'pages'));
     }
 
     /**
@@ -79,7 +128,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/');
         }
 
         $model->password = '';
@@ -108,7 +157,7 @@ class SiteController extends Controller
         $id = Yii::$app->request->get('p');
         $post = Pages::findOne(['id' => $id]);
         if (!$post) throw new \yii\web\NotFoundHttpException();
-        return $this->render('post', [
+        return $this->render('page', [
             'post' => $post,
         ]);
     }
@@ -123,7 +172,8 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate() && $model->reg()) {
                 Yii::$app->session->setFlash('success', 'Вы успешно зарегистрировались');
-                return $this->goHome();;
+                echo '<meta http-equiv="refresh" content="0; URL=/login">';
+                return $this->redirect('/login');
             }
         }
 

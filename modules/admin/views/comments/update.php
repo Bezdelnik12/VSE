@@ -5,10 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Comments */
 
-$this->title = 'Update Comments: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Comments', 'url' => ['index']];
+$this->title = 'Обновить: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Панель администратора', 'url' => ['/admin/']];
+$this->params['breadcrumbs'][] = ['label' => 'Коментарии', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Обновить';
 ?>
 <div class="comments-update">
 

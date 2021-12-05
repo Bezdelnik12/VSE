@@ -43,9 +43,9 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'link' => 'Link',
-            'parents_id' => 'Parents ID',
+            'title' => 'Заголовок',
+            'link' => 'Ссылка',
+            'parents_id' => 'Родитель',
         ];
     }
 }

@@ -28,22 +28,13 @@ AppAsset::register($this);
 
 <body>
 <?php $this->beginBody() ?>
-<!-- ============================================================== -->
-<!-- Preloader - style you can find in spinners.css -->
-<!-- ============================================================== -->
 <div class="preloader">
     <div class="lds-ripple">
         <div class="lds-pos"></div>
         <div class="lds-pos"></div>
     </div>
 </div>
-<!-- ============================================================== -->
-<!-- Main wrapper - style you can find in pages.scss -->
-<!-- ============================================================== -->
 <div id="main-wrapper">
-    <!-- ============================================================== -->
-    <!-- Topbar header - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <header class="topbar">
         <nav class="navbar top-navbar navbar-expand-md navbar-dark">
             <div class="navbar-header">
@@ -211,7 +202,7 @@ AppAsset::register($this);
 <!-- customizer Panel -->
 <!-- ============================================================== -->
 <aside class="customizer">
-    <a href="javascript:void(0)" class="service-panel-toggle"><i class="fa fa-spin fa-cog"></i></a>
+    <!--<a href="javascript:void(0)" class="service-panel-toggle"><i class="fa fa-spin fa-cog"></i></a>-->
     <div class="customizer-body">
         <ul class="nav customizer-tab" role="tablist" >
             <li class="nav-item">

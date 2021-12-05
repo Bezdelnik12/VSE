@@ -3,10 +3,12 @@
 namespace app\modules\admin\controllers;
 
 use app\models\Posts;
+use app\modules\admin\models\PostsForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * PostsController implements the CRUD actions for Posts model.
@@ -77,6 +79,8 @@ class PostsController extends Controller
     public function actionCreate()
     {
         $model = new Posts();
+        $model->autor_id = \Yii::$app->user->identity->id;
+        $model->create_date = time();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -101,13 +105,28 @@ class PostsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $form = new PostsForm();
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $form->id = $model->id;
+        $form->autor_id = $model->autor_id;
+
+        if ($this->request->isPost) {
+            if ($form->load($this->request->post())) {
+                $form->imageFile = UploadedFile::getInstance($form, 'imageFile');
+                $image = $form->upload($model);
+                if ($image) $model->images = $image;
+                $model->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            $form->title = $model->title;
+            $form->body = $model->body;
+            $form->desc = $model->desc;
+            $form->categories_id = $model->categories_id;
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
