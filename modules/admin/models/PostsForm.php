@@ -49,7 +49,7 @@ class PostsForm extends Model
             $name = false;
             if ($this->imageFile) {
                 $name = md5(microtime() . uniqid()) . '.' . $this->imageFile->extension;
-                $this->imageFile->saveAs($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $name);
+                $this->imageFile->saveAs($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $name);
             }
             return $name;
         } else {
